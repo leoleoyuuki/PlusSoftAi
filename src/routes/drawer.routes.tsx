@@ -17,9 +17,12 @@ export default function DrawerRoutes(){
                     {
                         drawerIcon: ({color, size}) => (
                             <Ionicons name="home" size={size} color={color} />
-                        )
+                        ),
+                        
+
                     }
                 }
+                
             />
             <Screen
                 name='Login'
