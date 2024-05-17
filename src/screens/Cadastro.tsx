@@ -16,6 +16,7 @@ export default function Cadastro({ navigation}) {
         // Signed in
         const user = userCredential.user;
         alert("Usuário cadastrado com sucesso!")
+        navigation.navigate("Home");
         console.log(user)
       })
       .catch((error) => {

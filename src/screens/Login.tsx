@@ -1,22 +1,44 @@
 import React, { useState } from "react";
-import { Image, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import {sendPasswordResetEmail } from "firebase/auth";
+import {
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import {
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../service/firebaseConfig";
 
-export default function Login({ navigation}) {
-
-  const [email, setEmail] = useState("")
+export default function Login({ navigation }) {
+  const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  const esqueciSenha = async() => {
+  const esqueciSenha = async () => {
     await sendPasswordResetEmail(auth, email)
       .then(() => {
-        alert("Email de reset enviado para: " + email)
+        alert("Email de reset enviado para: " + email);
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
       });
-  }
+  };
+  const logar = async () => {
+    signInWithEmailAndPassword(auth, email, senha)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        navigation.navigate("Home");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+  };
 
   return (
     <ImageBackground
@@ -25,35 +47,48 @@ export default function Login({ navigation}) {
     >
       <View>
         <View>
-          <View><Text style={styles.title}>Bem-vindo de volta!</Text></View>
-          <View><Text style={styles.subTitle}>Faça seu Login!</Text></View>
+          <View>
+            <Text style={styles.title}>Bem-vindo de volta!</Text>
+          </View>
+          <View>
+            <Text style={styles.subTitle}>Faça seu Login!</Text>
+          </View>
         </View>
 
-        <View style={styles.illustration} >
-          <Image
-            source={require("../../assets/loginIllustration.png")}
-          />
+        <View style={styles.illustration}>
+          <Image source={require("../../assets/loginIllustration.png")} />
         </View>
 
         <View style={styles.formulario}>
-          <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={(value)=> setEmail(value)} />
-          <TextInput style={styles.input} placeholder="Senha" value={senha} onChangeText={(value)=> setSenha(value)} />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={(value) => setEmail(value)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Senha"
+            value={senha}
+            onChangeText={(value) => setSenha(value)}
+          />
 
           <Text style={styles.esqueceu} onPress={esqueciSenha}>
-            Esqueceu sua senha ?</Text>
+            Esqueceu sua senha ?
+          </Text>
         </View>
-
 
         <View>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity style={styles.btn} onPress={logar}>
             <Text style={{ color: "#fff", fontWeight: "bold" }}>Login</Text>
           </TouchableOpacity>
-          <Text style={styles.linkCadastro} onPress={
-            () => navigation.navigate("Cadastro")
-          
-          } >Não tem uma conta? Increva-se</Text>
+          <Text
+            style={styles.linkCadastro}
+            onPress={() => navigation.navigate("Cadastro")}
+          >
+            Não tem uma conta? Increva-se
+          </Text>
         </View>
-
       </View>
     </ImageBackground>
   );
