@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Alert, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import {createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../service/firebaseConfig";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Cadastro({ navigation}) {
 
@@ -16,7 +16,8 @@ export default function Cadastro({ navigation}) {
         // Signed in
         const user = userCredential.user;
         alert("Usuário cadastrado com sucesso!")
-        navigation.navigate("Home");
+        AsyncStorage.setItem('logged', "true");
+        navigation.navigate("Formulario");
         console.log(user)
       })
       .catch((error) => {
