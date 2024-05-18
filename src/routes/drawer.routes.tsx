@@ -4,9 +4,8 @@ import "react-native-gesture-handler";
 import Home from "../screens/Home";
 import Login from "../screens/Login";
 import Cadastro from "../screens/Cadastro";
-import Formulario from "../screens/Formulario";
+import Formulario from "../screens/FormularioEmpresa";
 import { Ionicons } from "@expo/vector-icons";
-import { ImageBackground } from "react-native";
 
 const { Screen, Navigator } = createDrawerNavigator();
 
