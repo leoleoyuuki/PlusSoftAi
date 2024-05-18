@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Alert,
   Image,
   ImageBackground,
   StyleSheet,
@@ -8,15 +9,34 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../service/firebaseConfig";
+import { useFocusEffect } from "@react-navigation/native";
+
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+
+
+  useFocusEffect(
+    React.useCallback(() => {
+      async function checkLogin() {
+        const logado = await AsyncStorage.getItem("logged");
+        if (logado !== null) {
+          Alert.alert("Usuário Já Logado!");
+          navigation.navigate("Formulario");
+        }
+      }
+      checkLogin();
+    }, [navigation])
+  );
+
+
 
   const esqueciSenha = async () => {
     await sendPasswordResetEmail(auth, email)
@@ -32,10 +52,12 @@ export default function Login({ navigation }) {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        navigation.navigate("Home");
+        AsyncStorage.setItem('logged', "true");
+        navigation.navigate("Formulario");
       })
       .catch((error) => {
         const errorCode = error.code;
+        alert(error.message);
         const errorMessage = error.message;
       });
   };
