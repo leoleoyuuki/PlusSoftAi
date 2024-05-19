@@ -3,26 +3,26 @@ import {
   Alert,
   Image,
   ImageBackground,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 
-
-export default function FormularioDesempenho({ navigation}) {
-  
-  const [feature1, setFeature1] = useState("");
-  const [feature2, setFeature2] = useState("");
-  const [feature3, setFeature3] = useState("");
-  const [feature4, setFeature4] = useState("");
-  const [feature5, setFeature5] = useState("");
-  const [feature6, setFeature6] = useState("");
+export default function FormularioDesempenho({ navigation }) {
+  const [nome, setNome] = useState("");
+  const [tamanho, setTamanho] = useState("");
+  const [setor, setSetor] = useState("");
+  const [localizacaoGeografica, setLocalizacaoGeografica] = useState("");
+  const [numeroFuncionarios, setNumeroFuncionarios] = useState("");
+  const [tipoEmpresa, setTipoEmpresa] = useState("");
+  const [cliente, setCliente] = useState("");
 
   useFocusEffect(
     React.useCallback(() => {
@@ -38,39 +38,45 @@ export default function FormularioDesempenho({ navigation}) {
   );
 
   const handleSubmit = () => {
-
     const data = {
-      feature1,
-      feature2,
-      feature3,
-      feature4,
-      feature5,
-      feature6,
+      nome: nome,
+      tamanho: tamanho,
+      setor: setor,
+      localizacaoGeografica: localizacaoGeografica,
+      numeroFuncionarios: numeroFuncionarios,
+      tipoEmpresa: tipoEmpresa,
+      cliente: cliente,
     };
 
-    axios.post("https://api.fake.com", data)
+    axios.post("https://localhost:80/empresas", data)
       .then((response) => {
         console.log(response.data);
         Alert.alert("Dados Inseridos com sucesso!");
-        // Navigate to the next screen or perform some action
       })
       .catch((error) => {
-        console.error(error);
-        Alert.alert("Erro ao enviar Dados!");
+        console.error(error.message);
+        Alert.alert("Erro ao enviar Dados!" + error.message);
       });
-
   };
 
   return (
-    <ImageBackground source={require("../../assets/bgs/bg2.png")} style={styles.container}>
-      <View style={styles.header}>
-      <TouchableOpacity onPress={() => navigation.openDrawer()} style={{position: "absolute", left: 25, top: 45}} >
-        <Ionicons name="menu" size={32} color="#000" />
-      </TouchableOpacity>
-        <Image source={require("../../assets/icon.png")} style={styles.logo} />
-        <Text style={styles.welcomeText}>Bem vindo à plusoft</Text>
-      </View>
-
+    <ScrollView style={styles.container}>
+      <ImageBackground
+        source={require("../../assets/bgs/bg2.png")}
+        style={styles.header}
+      >
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <Ionicons name="menu" size={32} color="#000" />
+        </TouchableOpacity>
+        <View style={{ alignItems: "center", paddingTop: 10 }}>
+          <Image
+            source={require("../../assets/icon.png")}
+            style={styles.logo}
+          />
+          <Text style={styles.welcomeText}>Bem vindo à plusoft</Text>
+        </View>
+        <View style={{ opacity: 0, width: "15%" }}></View>
+      </ImageBackground>
       <View style={styles.form}>
         <Text style={styles.formTitle}>Formulário Empresa</Text>
         <View style={styles.subTitleContainer}>
@@ -79,49 +85,53 @@ export default function FormularioDesempenho({ navigation}) {
             <Text style={styles.addButton}>+</Text>
           </TouchableOpacity>
         </View>
-
         <TextInput
           style={styles.input}
-          placeholder="Feature 1"
-          value={feature1}
-          onChangeText={(value) => setFeature1(value)}
+          placeholder="Nome"
+          value={nome}
+          onChangeText={(value) => setNome(value)}
         />
         <TextInput
           style={styles.input}
-          placeholder="Feature 2"
-          value={feature2}
-          onChangeText={(value) => setFeature2(value)}
+          placeholder="Tamanho"
+          value={tamanho}
+          onChangeText={(value) => setTamanho(value)}
         />
         <TextInput
           style={styles.input}
-          placeholder="Feature 3"
-          value={feature3}
-          onChangeText={(value) => setFeature3(value)}
+          placeholder="Setor"
+          value={setor}
+          onChangeText={(value) => setSetor(value)}
         />
         <TextInput
           style={styles.input}
-          placeholder="Feature 4"
-          value={feature4}
-          onChangeText={(value) => setFeature4(value)}
+          placeholder="Localização Geográfica"
+          value={localizacaoGeografica}
+          onChangeText={(value) => setLocalizacaoGeografica(value)}
         />
         <TextInput
           style={styles.input}
-          placeholder="Feature 5"
-          value={feature5}
-          onChangeText={(value) => setFeature5(value)}
+          placeholder="Número de Funcionários"
+          value={numeroFuncionarios}
+          onChangeText={(value) => setNumeroFuncionarios(value)}
         />
         <TextInput
           style={styles.input}
-          placeholder="Feature 6"
-          value={feature6}
-          onChangeText={(value) => setFeature6(value)}
+          placeholder="Tipo Empresa"
+          value={tipoEmpresa}
+          onChangeText={(value) => setTipoEmpresa(value)}
         />
-
+        <TextInput
+          style={styles.input}
+          placeholder="Cliente"
+          value={cliente}
+          onChangeText={(value) => setCliente(value)}
+        />
         <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
           <Text style={styles.submitButtonText}>Enviar</Text>
         </TouchableOpacity>
       </View>
-    </ImageBackground>
+    </ScrollView>
   );
 }
 
@@ -131,11 +141,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#f5f5f5",
   },
   header: {
-    paddingTop: 70,
-    alignItems: "center",
+    paddingTop: 60,
+    flexDirection: "row",
+    justifyContent: "space-between",
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
     marginBottom: 10,
+    paddingLeft: 25,
   },
   logo: {
     backgroundColor: "#d9d9d9",
@@ -148,6 +160,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+    textAlign: "center",
+    paddingBottom: 15,
   },
   form: {
     borderRadius: 10,
@@ -160,7 +174,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 20,
   },
   subTitleContainer: {
     flexDirection: "row",
@@ -198,4 +211,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
