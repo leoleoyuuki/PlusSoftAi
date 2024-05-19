@@ -48,7 +48,7 @@ export default function FormularioEmpresa({ navigation }) {
       cliente: cliente,
     };
 
-    axios.post("https://localhost:80/empresas", data)
+    axios.post("http://localhost:80/empresas", data)
       .then((response) => {
         console.log(response.data);
         Alert.alert("Dados Inseridos com sucesso!");
