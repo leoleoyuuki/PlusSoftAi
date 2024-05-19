@@ -4,8 +4,19 @@ import "react-native-gesture-handler";
 import Home from "../screens/Home";
 import Login from "../screens/Login";
 import Cadastro from "../screens/Cadastro";
-import Formulario from "../screens/FormularioEmpresa";
+
+import FormularioEmpresa from "../screens/FormularioEmpresa";
+import FormularioTendencia from "../screens/FormularioTendencia";
+import FormularioDesempenho from "../screens/FormularioDesempenho";
+import FormularioHistorico from "../screens/FormularioHistorico";
+import FormularioComportamento from "../screens/FormularioComportamento";
+
 import { Ionicons } from "@expo/vector-icons";
+
+
+
+
+
 
 const { Screen, Navigator } = createDrawerNavigator();
 
@@ -46,13 +57,50 @@ export default function DrawerRoutes() {
           }}/>
         <Screen
           name="Formulario"
-          component={Formulario}
+          component={FormularioEmpresa}
           options={{
             drawerIcon: ({ color, size }) => (
               <Ionicons name="document-text" size={size} color={color} />
             ),
           }}
         />
+        <Screen
+          name="FormularioTendencia"
+          component={FormularioTendencia}
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="document-text" size={size} color={color} />
+            ),
+          }}
+        />
+        <Screen
+          name="FormularioDesempenho"
+          component={FormularioDesempenho}
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="document-text" size={size} color={color} />
+            ),
+          }}
+        />
+        <Screen
+          name="FormularioHistorico"
+          component={FormularioHistorico}
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="document-text" size={size} color={color} />
+            ),
+          }}
+        />
+        <Screen
+          name="FormularioComportamento"
+          component={FormularioComportamento}
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="document-text" size={size} color={color} />
+            ),
+          }}
+        />
+
       </Navigator>
   );
 }
