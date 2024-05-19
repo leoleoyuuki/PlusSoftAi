@@ -14,7 +14,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 
-export default function FormularioEmpresa({ navigation}) {
+
+export default function FormularioDesempenho({ navigation}) {
   
   const [feature1, setFeature1] = useState("");
   const [feature2, setFeature2] = useState("");
@@ -51,6 +52,7 @@ export default function FormularioEmpresa({ navigation}) {
       .then((response) => {
         console.log(response.data);
         Alert.alert("Dados Inseridos com sucesso!");
+        // Navigate to the next screen or perform some action
       })
       .catch((error) => {
         console.error(error);
