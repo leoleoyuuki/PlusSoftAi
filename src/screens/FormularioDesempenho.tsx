@@ -16,13 +16,10 @@ import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 
 export default function FormularioDesempenho({ navigation }) {
-  const [nome, setNome] = useState("");
-  const [tamanho, setTamanho] = useState("");
-  const [setor, setSetor] = useState("");
-  const [localizacaoGeografica, setLocalizacaoGeografica] = useState("");
-  const [numeroFuncionarios, setNumeroFuncionarios] = useState("");
-  const [tipoEmpresa, setTipoEmpresa] = useState("");
-  const [cliente, setCliente] = useState("");
+  const [receita, setReceita] = useState("");
+  const [lucro, setLucro] = useState("");
+  const [crescimento, setCrescimento] = useState("");
+  const [empresaId, setEmpresaId] = useState("");
 
   useFocusEffect(
     React.useCallback(() => {
@@ -39,16 +36,15 @@ export default function FormularioDesempenho({ navigation }) {
 
   const handleSubmit = () => {
     const data = {
-      nome: nome,
-      tamanho: tamanho,
-      setor: setor,
-      localizacaoGeografica: localizacaoGeografica,
-      numeroFuncionarios: numeroFuncionarios,
-      tipoEmpresa: tipoEmpresa,
-      cliente: cliente,
+      receita: receita,
+      lucro: lucro,
+      crescimento: crescimento,
+      empresa: {
+        id: empresaId,
+      },
     };
 
-    axios.post("https://localhost:80/empresas", data)
+    axios.post("https://localhost:80/desempenho", data)
       .then((response) => {
         console.log(response.data);
         Alert.alert("Dados Inseridos com sucesso!");
@@ -78,7 +74,7 @@ export default function FormularioDesempenho({ navigation }) {
         <View style={{ opacity: 0, width: "15%" }}></View>
       </ImageBackground>
       <View style={styles.form}>
-        <Text style={styles.formTitle}>Formulário Empresa</Text>
+        <Text style={styles.formTitle}>Formulário Desempenho</Text>
         <View style={styles.subTitleContainer}>
           <Text style={styles.subTitle}>Dados Empresa</Text>
           <TouchableOpacity>
@@ -87,45 +83,27 @@ export default function FormularioDesempenho({ navigation }) {
         </View>
         <TextInput
           style={styles.input}
-          placeholder="Nome"
-          value={nome}
-          onChangeText={(value) => setNome(value)}
+          placeholder="Receita"
+          value={receita}
+          onChangeText={setReceita}
         />
         <TextInput
           style={styles.input}
-          placeholder="Tamanho"
-          value={tamanho}
-          onChangeText={(value) => setTamanho(value)}
+          placeholder="Lucro"
+          value={lucro}
+          onChangeText={setLucro}
         />
         <TextInput
           style={styles.input}
-          placeholder="Setor"
-          value={setor}
-          onChangeText={(value) => setSetor(value)}
+          placeholder="Crescimento"
+          value={crescimento}
+          onChangeText={setCrescimento}
         />
         <TextInput
           style={styles.input}
-          placeholder="Localização Geográfica"
-          value={localizacaoGeografica}
-          onChangeText={(value) => setLocalizacaoGeografica(value)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Número de Funcionários"
-          value={numeroFuncionarios}
-          onChangeText={(value) => setNumeroFuncionarios(value)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Tipo Empresa"
-          value={tipoEmpresa}
-          onChangeText={(value) => setTipoEmpresa(value)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Cliente"
-          value={cliente}
-          onChangeText={(value) => setCliente(value)}
+          placeholder="ID Empresa"
+          value={empresaId}
+          onChangeText={setEmpresaId}
         />
         <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
           <Text style={styles.submitButtonText}>Enviar</Text>

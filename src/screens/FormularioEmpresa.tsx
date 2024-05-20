@@ -55,7 +55,7 @@ export default function FormularioEmpresa({ navigation }) {
       })
       .catch((error) => {
         console.error(error.message);
-        Alert.alert("Erro ao enviar Dados!" + error.message);
+        Alert.alert("Erro ao enviar Dados: " + error.message);
       });
   };
 
